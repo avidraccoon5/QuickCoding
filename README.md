@@ -1,5 +1,5 @@
-# QuickInputs
-A way to quickly control inputs such as a mouse.
+# QuickCoding
+A project to help make coding possibly easier and or quicker.
 # Features
 - Simulate the mouse moving and clicks.
 - Events to detect if the mouse moves or clicks.
