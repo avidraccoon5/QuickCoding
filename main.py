@@ -30,3 +30,54 @@ class Events:
             listener.join()
         global x, y
         return [x, y]
+class DataSystem:
+    file = []
+    def GetData(Line):
+        file = []
+        with open('data', 'r') as reader:
+            line = reader.readline()
+            while line != '':
+                test = ''
+                for i in range(len(line)):
+                    test+=line[i]
+                file.append(test)
+                line = reader.readline()
+        print(file)
+        return file[Line-1]
+    def SaveData(Line, Data):
+        with open('data', 'r', encoding='utf-8') as file:
+            data = file.readlines()
+        data[Line-1] = Data+"\n"
+        with open('data', 'w', encoding='utf-8') as file:
+            file.writelines(data)
+    def CreateData(Data):
+        file = []
+        with open('data', 'r') as reader:
+            line = reader.readline()
+            while line != '':
+                test = ''
+                for i in range(len(line)-2):
+                    test+=line[i-1]
+                file.append(test)
+                line = reader.readline()
+        with open('data', 'a') as a_writer:
+            a_writer.write('\n'+Data)
+        return len(file)
+    def Clear(self):
+        with open('data', 'r', encoding='utf-8') as file:
+            data = file.readlines()
+        with open('data', 'r') as reader:
+            line = reader.readline()
+            while line != '':
+                test = ''
+                for i in range(len(line)-2):
+                    test+=line[i-1]
+                self.file.append(test)
+                line = reader.readline()
+        length = len(self.file)
+        data = []
+        for i in range(length):
+            data.append('')
+        with open('data', 'w', encoding='utf-8') as file:
+            file.writelines(data)
+
