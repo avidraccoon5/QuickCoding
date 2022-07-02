@@ -1,14 +1,14 @@
 import ctypes, pynput, time
-mouse = pynput.mouse.Controller
-def RightClick(x, y):
-    ctypes.windll.user32.SetCursorPos(x, y), ctypes.windll.user32.mouse_event(8, 0, 0, 0, 0), ctypes.windll.user32.mouse_event(10, 0, 0, 0, 0)
-def LeftClick(x, y):
-    ctypes.windll.user32.SetCursorPos(x, y), ctypes.windll.user32.mouse_event(2, 0, 0, 0, 0), ctypes.windll.user32.mouse_event(4, 0, 0, 0, 0)
-def MoveMouse(x, y):
-    global mouse
-    mouse.position(x,y)
-class Events:
+class Mouse:
+    def RightClick(x, y):
+        ctypes.windll.user32.SetCursorPos(x, y), ctypes.windll.user32.mouse_event(8, 0, 0, 0, 0), ctypes.windll.user32.mouse_event(10, 0, 0, 0, 0)
+    def LeftClick(x, y):
+        ctypes.windll.user32.SetCursorPos(x, y), ctypes.windll.user32.mouse_event(2, 0, 0, 0, 0), ctypes.windll.user32.mouse_event(4, 0, 0, 0, 0)
+    def MoveMouse(x, y):
+        mouse = pynput.mouse.Controller
+        mouse.position(x,y)
     def MouseClick(self):
+        mouse = pynput.mouse.Controller
         def on_click(dx, dy, side, pressed):
             global x, y, button
             x = dx
@@ -22,6 +22,7 @@ class Events:
         return [x, y, button]
 
     def MouseMoved(self):
+        mouse = pynput.mouse.Controller
         def on_move(dx, dy):
             global x, y
             x = dx
@@ -61,8 +62,15 @@ class DataSystem:
                 file.append(test)
                 line = reader.readline()
         with open('data', 'a') as a_writer:
-            a_writer.write('\n'+Data)
-        return len(file)
+            if len(file) == 0:
+                Line = 0
+                data = Data + "\n"
+                with open('data', 'w', encoding='utf-8') as file:
+                    file.writelines(data)
+                return 1
+            else:
+                a_writer.write(Data+"\n")
+                return len(file)
     def Clear(self):
         with open('data', 'r', encoding='utf-8') as file:
             data = file.readlines()
@@ -80,4 +88,13 @@ class DataSystem:
             data.append('')
         with open('data', 'w', encoding='utf-8') as file:
             file.writelines(data)
-
+class KeyBoard:
+    def PressKey(key):
+        Control = pynput.keyboard.Controller()
+        if key == "space":
+            key = " "
+        Control.press(key)
+        Control.release(key)
+    def TypeInput(Data):
+        Control = pynput.keyboard.Controller()
+        Control.type(Data)
